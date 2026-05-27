@@ -8,6 +8,38 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
+  <form method="GET" action="/dashboard">
+
+    <input type="text"
+           name="search"
+           placeholder="Buscar archivos..."
+           style="
+           width:70%;
+           padding:14px;
+           border:none;
+           border-radius:12px;
+           background:#334155;
+           color:white;
+           font-size:16px;
+           ">
+
+    <button type="submit"
+            style="
+            background:#3b82f6;
+            border:none;
+            padding:14px 20px;
+            border-radius:12px;
+            color:white;
+            cursor:pointer;
+            font-weight:bold;
+            ">
+        Buscar
+    </button>
+
+</form>
+
+<br>
+
 <style>
 body {
   font-family: 'Poppins', sans-serif;
@@ -100,6 +132,41 @@ body {
         <a href="/logout" class="logout-btn">
             Cerrar sesión
         </a>
+
+        {% for backup in backups %}
+
+<div style="
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+margin-bottom:15px;
+">
+
+    <h3>{{ backup.filename }}</h3>
+
+    <p style="color:gray;">
+        Subido el:
+        {{ backup.fecha }}
+    </p>
+
+    <a href="/download/{{ backup.id }}"
+       style="
+       color:#60a5fa;
+       margin-right:15px;
+       ">
+       Descargar
+    </a>
+
+    <a href="/delete/{{ backup.id }}"
+       style="
+       color:red;
+       ">
+       Borrar
+    </a>
+
+</div>
+
+{% endfor %}
         
       </div>
 
