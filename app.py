@@ -88,16 +88,29 @@ def logout():
 # -------------------------
 @app.route("/dashboard")
 def dashboard():
+
     if "user_id" not in session:
         return redirect("/login")
 
     db = get_db()
+
+    search = request.args.get("search", "")
+
     backups = db.execute(
-        "SELECT * FROM backups WHERE user_id=?",
-        (session["user_id"],)
+        """
+        SELECT *
+        FROM backups
+        WHERE user_id=?
+        AND filename LIKE ?
+        ORDER BY id DESC
+        """,
+        (session["user_id"], f"%{search}%")
     ).fetchall()
 
-    return render_template("dashboard.html", backups=backups)
+    return render_template(
+        "dashboard.html",
+        backups=backups
+    )
 
 
 # -------------------------
